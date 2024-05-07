@@ -1,15 +1,14 @@
 package academic.driver;
 
+import academic.model.AcademicSimulator;
+
 /**
- * @author NIM Nama
- * @author NIM Nama
+ * @author 12S22002 - Jeremy Mart Valentino Nainggolan
  */
+
 public class Driver1 {
-
-    public static void main(String[] _args) {
-
-        // codes
-
+    public static void main(String[] args) {
+        AcademicSimulator academicSimulator = new AcademicSimulator();
+        academicSimulator.run();
     }
-
 }
