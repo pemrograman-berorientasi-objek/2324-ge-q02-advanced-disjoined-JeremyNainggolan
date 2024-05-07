@@ -149,13 +149,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void find(String _academicYear, String _semester) {
         ArrayList<String> studentId = new ArrayList<>();
-        ArrayList<String> courseCode = new ArrayList<>();
         ArrayList<Integer> studentNumber = new ArrayList<>();
 
         for (Enrollment enrollment : enrollments) {
             if (enrollment.getYear().equals(_academicYear) && enrollment.getSemester().equals(_semester)) {
                 studentId.add(enrollment.getNim());
-                courseCode.add(enrollment.getCode());
             }
         }
 
@@ -167,7 +165,6 @@ public class StudentServiceImpl implements StudentService {
             if (studentNumber.get(i) % 2 != 0) {
                 studentNumber.remove(i);
                 studentId.remove(i);
-                courseCode.remove(i);
             }
         }
 
