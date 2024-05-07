@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class StudentServiceImpl implements StudentService {
     private static ArrayList<Student> students = new ArrayList<Student>();
+    private static ArrayList<BestStudent> bestStudents = new ArrayList<BestStudent>();
     private ArrayList<Course> courses = CourseServiceImpl.getCourses();
     private ArrayList<Enrollment> enrollments = EnrollmentServiceImpl.getEnrollments();
 
@@ -148,11 +149,13 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void find(String _academicYear, String _semester) {
         ArrayList<String> studentId = new ArrayList<>();
+        ArrayList<String> courseCode = new ArrayList<>();
         ArrayList<Integer> studentNumber = new ArrayList<>();
 
         for (Enrollment enrollment : enrollments) {
             if (enrollment.getYear().equals(_academicYear) && enrollment.getSemester().equals(_semester)) {
                 studentId.add(enrollment.getNim());
+                courseCode.add(enrollment.getCode());
             }
         }
 
@@ -164,14 +167,36 @@ public class StudentServiceImpl implements StudentService {
             if (studentNumber.get(i) % 2 != 0) {
                 studentNumber.remove(i);
                 studentId.remove(i);
+                courseCode.remove(i);
             }
         }
 
-        
+        for (int i = 0; i < studentId.size(); i++) {
+            bestStudents.add(new BestStudent(studentId.get(i)));
+        }
+
+        for (int i = 0; i < bestStudents.size(); i++) {
+            for (Enrollment enrollment : enrollments) {
+                if (bestStudents.get(i).getStudentId().equals(enrollment.getNim())
+                        && enrollment.getYear().equals(_academicYear)) {
+                    if (enrollment.getSemester().equals("odd")) {
+                        bestStudents.get(i).setOdd(enrollment.getGrade());
+                    } else if (enrollment.getSemester().equals("even")) {
+                        bestStudents.get(i).setEven(enrollment.getGrade());
+                    }
+                }
+            }
+        }
     }
 
     public void bestStudent(String _bestStudent) {
+        for (BestStudent bestStudent : bestStudents) {
+            for (Enrollment enrollment : enrollments) {
+                if (bestStudent.getStudentId().equals(enrollment.getNim())) {
 
+                }
+            }
+        }
     }
 
     @Override
@@ -183,6 +208,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void printBestStudent() {
-
+        for (BestStudent bestStudent : bestStudents) {
+            System.out.println(bestStudent);
+        }
     }
 }
